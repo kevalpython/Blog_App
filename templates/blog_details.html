@@ -1,0 +1,17 @@
+{% extends "index.html" %} 
+{% load static %} 
+{% block mainblock %}
+
+<h1>{{ blog.title }} </a></h1>
+<h4>{{ blog.description }}</h4>
+This blog is post by <b><a href="{% url 'blogger_details' pk=blog.author.id %}">{{ blog.author}}</a></b> on <b>{{ blog.created_at }}</b><hr>
+
+{% for i in comments %}
+
+<p>{{i.comment}}</p>
+<p>{{i.user}}</p>
+{% empty %}
+No Comments
+{% endfor %}
+<button style="background-color:blue;"><a style="color: white;" href="{% url 'add_comment' pk=blog.id %}">Add Comment</a></button>
+{% endblock %}

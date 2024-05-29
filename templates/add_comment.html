@@ -1,0 +1,10 @@
+{% extends "index.html" %} 
+{% load static %} 
+{% block mainblock %}
+<form action="" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered">
+    {% csrf_token %}
+    <label>{{form.comment.label}} : </label>
+    {{form.comment}}  <br>      
+    <button type="submit">Submit</button>
+</form>
+{% endblock %}
