@@ -20,3 +20,6 @@ class Blogs_Admin(admin.ModelAdmin):
 @admin.register(Comments)
 class Comments_Admin(admin.ModelAdmin):
     list_display=['comment','user','blog','created_at','updated_at']
+
+
+# Comment names in the Admin site are created by truncating the comment description to 75 characters.

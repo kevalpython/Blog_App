@@ -89,16 +89,10 @@ class Login_View(LoginView):
     redirect_authenticated_user = True
 
     def get_success_url(self):
-        if 'next' in self.request.GET['next']:
-            return reverse('next')
-        else :
             return reverse('blog')
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
-    
-# django.utils.datastructures.MultiValueDictKeyError: 'next'
-
     
 class Logout_View(LogoutView):
     redirect_authenticated_user = True
