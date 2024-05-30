@@ -4,7 +4,6 @@ from Blogs.models import *
 # Register your models here.
 
 
-
 @admin.register(User)
 class User_Admin(admin.ModelAdmin):
     list_display=['username','first_name','email','biography', 'is_blogger']
@@ -19,7 +18,6 @@ class Comments_Admin(admin.ModelAdmin):
 
 class Blog_Comments_Inline(admin.TabularInline):
     model = Comments
-    extra = 0
     
 class Blogs_Admin(admin.ModelAdmin):
     inlines = [Blog_Comments_Inline]
@@ -28,3 +26,8 @@ class Blogs_Admin(admin.ModelAdmin):
         model = Blogs
     
 admin.site.register(Blogs_Admin,Blog_Comments_Inline)
+
+
+# Admin site blog posts records should display the list of associated comments inline (below each blog post).
+# TypeError: 'MediaDefiningClass' object is not iterable
+
