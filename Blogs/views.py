@@ -6,7 +6,6 @@ from .models import *
 from django.views.generic.detail import DetailView
 from .forms import *
 from django.urls import reverse,reverse_lazy
-# from .permissions import IsLogin
 from django.contrib.auth.mixins import *
 from django.shortcuts import redirect
 
@@ -89,6 +88,9 @@ class Login_View(LoginView):
     redirect_authenticated_user = True
 
     def get_success_url(self):
+        if 'next' in self.request.GET['next']:
+            return reverse('next')
+        else :
             return reverse('blog')
 
     def form_invalid(self, form):
