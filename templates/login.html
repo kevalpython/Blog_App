@@ -1,110 +1,15 @@
+{% extends "index.html" %} 
 {% load static %} 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <title>Login</title>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
-    />
+{% block mainblock %}
 
-    <style>
-      body {
-        background-color: #e0e4e9;
+Login Form
+<form method="POST" >
+  {% csrf_token %}
+    <label for="username" >{{form.username.label}}</label>
+      {{ form.username }}
+    <label for="password" >{{form.password.label}}</label>
+      {{ form.password }}
+    <button type="submit" >Login</button>
+</form>
 
-      }
-
-      .card {
-
-         /* Simulated 3D gradient background */
-         /* Dark teal border for the card */
-         /* White text color in the card */
-        /* Box shadow for a subtle lift */
-        transition: transform 0.3s ease-in-out;
-      }
-
-
-
-
-      .btn-success {
-        background: linear-gradient(
-          145deg,
-          #004d40,
-          #00251a
-        ); /* Simulated 3D gradient background for the button */
-        border-color: #004d40; /* Dark teal border color for the button */
-      }
-
-      .btn-success:hover {
-        background: linear-gradient(
-          145deg,
-          #00251a,
-          #00120d
-        );
-        
-      }
-
-      .required-message {
-        color: #dc3545; /* Bootstrap's danger color for a red required message */
-        font-size: 0.875rem; /* Adjust font size as needed */
-      }
-    </style>
-  </head>
-
-  <body>
-    <div class="container mt-5">
-      <div class="row justify-content-center">
-        <div class="col-md-4">
-          <h1 class="text-center mb-3 text-Dark "></h1>
-          <div class="card shadow-lg">
-            <div class="card-header text-dark text-center fw-bold fs-3">
-              Login Form
-            </div>
-            <div class="card-body">
-            {{form.non_field_errors}}
-              <form method="POST" >
-                {% csrf_token %}
-                  <div class="row">
-                    <div class="col-3">
-                      <label for="password" class="form-label text-dark">{{form.username.label}}</label>
-                      </div>
-                    <div class="col-5">
-                      {{ form.username }}
-                    </div>
-                      {% if form.username.errors %}
-                        {% for error in form.username.errors %}
-                            <p style="color: red;">{{error}}</p>
-                        {% endfor %}
-                      {% endif %}
-                  </div><br>
-                  <div class="row">
-                    <div class="col-3">
-                      <label for="password" class="form-label text-dark">{{form.password.label}}</label>
-                    </div>
-                    <div class="col-4">{{ form.password }}</div>
-                      
-                      {% if form.password.errors %}
-                        {% for error in form.password.errors %}
-                            <p style="color: red;">{{error}}</p>
-                        {% endfor %}
-                      {% endif %}
-                  </div>
-
-                <div class="col-12 text-center mt-3">
-                  <button type="submit" class="btn btn-primary w-25 p-1 fw-bold fs-2">
-                    Login
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </body>
-</html>
+{% endblock %}  

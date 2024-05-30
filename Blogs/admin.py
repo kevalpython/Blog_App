@@ -10,6 +10,7 @@ class User_Admin(admin.ModelAdmin):
 
 class Blog_Comments_Inline(admin.TabularInline):
     model = Comments
+    extra = 0
 
 @admin.register(Blogs)
 class Blogs_Admin(admin.ModelAdmin):

@@ -1,15 +1,17 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from typing import Any
-from django.db.models.query import QuerySet
-from django.shortcuts import render,redirect
 from django.views.generic.list import ListView
 from django.views.generic import TemplateView,CreateView
 from .models import *
 from django.views.generic.detail import DetailView
 from .forms import *
-from django.urls import reverse_lazy
+from django.urls import reverse,reverse_lazy
+# from .permissions import IsLogin
+from django.contrib.auth.mixins import *
+from django.shortcuts import redirect
 
-# Create your views here.
+
+
 class Index(TemplateView):
     template_name = 'index.html'
 
@@ -29,8 +31,6 @@ class Bloggers_List_View(ListView):
         print(qs)
         return qs
 
-
-
 class Blogs_Details_View(DetailView):
     template_name = 'blog_details.html'
     model = Blogs
@@ -44,7 +44,6 @@ class Blogs_Details_View(DetailView):
         context['comments'] = comments
         return context
 
-
 class Bloggers_Detail_View(DetailView):
     template_name = 'blogger_detail.html'
     model = User
@@ -57,11 +56,11 @@ class Bloggers_Detail_View(DetailView):
         context['blogs'] = blogs
         return context
     
-class Add_Comment_View(CreateView):
+class Add_Comment_View(LoginRequiredMixin, CreateView):
     model=Comments
     template_name = "add_comment.html"
     form_class = Add_Comment_Form
-
+    
     def form_valid(self, form):
         form.instance.user = self.request.user
         form.instance.blog = Blogs.objects.get(pk=self.kwargs["pk"])
@@ -74,17 +73,30 @@ class Add_Comment_View(CreateView):
     def get_success_url(self, **kwargs):
         return reverse_lazy('blog_details', kwargs = {'pk': self.kwargs['pk']})
     
+    def handle_404(self):
+        """Handel 404 error."""
+        return redirect("login")
+
+    def dispatch(self, request, *args, **kwargs):
+
+        if not request.user.is_authenticated:
+            return self.handle_404()
+        
+        return super().dispatch(request, *args, **kwargs)
+    
 class Login_View(LoginView):
     template_name = "login.html"
     redirect_authenticated_user = True
 
     def get_success_url(self):
-        if self.request.user.is_blogger == True:
-            return redirect("admin/")
-        return reverse_lazy("blog")
+        
+        return reverse('blog')
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
+    
+# django.utils.datastructures.MultiValueDictKeyError: 'next'
+
     
 class Logout_View(LogoutView):
     redirect_authenticated_user = True
