@@ -9,8 +9,6 @@ from django.urls import reverse,reverse_lazy
 from django.contrib.auth.mixins import *
 from django.shortcuts import redirect
 
-
-
 class Index(TemplateView):
     template_name = 'index.html'
 
@@ -96,8 +94,13 @@ class Login_View(LoginView):
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
     
+# MultiValueDictKeyError at /login/
+# 'next'
+
 class Logout_View(LogoutView):
     redirect_authenticated_user = True
 
     def get_success_url(self):
         return reverse_lazy("blog")
+    
+
