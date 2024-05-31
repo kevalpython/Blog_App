@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path,include
 from .views import *
 urlpatterns = [
-    path('blog/', Index.as_view(),name='blog'),
+    path('blog/', Index_view.as_view(),name='blog'),
     path('blog/blogs/', Blogs_List_View.as_view(),name='blogs_lists'),
     path('blog/<int:pk>', Blogs_Details_View.as_view(),name='blog_details'),
     path('blog/blogger/<int:pk>', Bloggers_Detail_View.as_view(),name='blogger_details'),

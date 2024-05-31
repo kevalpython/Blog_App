@@ -9,7 +9,7 @@ from django.urls import reverse,reverse_lazy
 from django.contrib.auth.mixins import *
 from django.shortcuts import redirect
 
-class Index(TemplateView):
+class Index_view(TemplateView):
     template_name = 'home.html'
 
 class Blogs_List_View(ListView):
@@ -35,9 +35,8 @@ class Blogs_Details_View(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         blog = Blogs.objects.get(pk = self.kwargs['pk'])
-        comments = Comments.objects.filter(blog=blog)
         context['blog'] = blog
-        context['comments'] = comments
+        context['comments'] = Comments.objects.filter(blog=blog)
         return context
 
 class Bloggers_Detail_View(DetailView):
@@ -74,10 +73,8 @@ class Add_Comment_View(LoginRequiredMixin, CreateView):
         return redirect("login")
 
     def dispatch(self, request, *args, **kwargs):
-
         if not request.user.is_authenticated:
             return self.handle_404()
-        
         return super().dispatch(request, *args, **kwargs)
     
 class Login_View(LoginView):
@@ -92,7 +89,7 @@ class Login_View(LoginView):
     
 
 class Logout_View(LogoutView):
-    redirect_authenticated_user = True
+    redirect_authenticated_user = False
 
     def get_success_url(self):
         return reverse_lazy("blog")
