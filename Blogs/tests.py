@@ -1,14 +1,50 @@
 from django.test import TestCase
+from .models import User, Blogs, Comments
+from django.urls import reverse
 
-# Create your tests here.
+class Model_Test(TestCase):
 
+    def test_user_str(self):
+        user = User.objects.create(username='keval')
+        self.assertEqual(str(user), 'keval')
 
+    def test_blog_str(self):
+        blog = Blogs.objects.create(title='Blog testing', description='testing', author=User.objects.create(username='keval'))
+        self.assertEqual(str(blog), 'Blog testing')
 
-# In addition you should write some basic tests to verify:
-# 1. All model fields have the correct label and length.
-# 2. All models have the expected object name (e.g. __str__() returns the expected value).
-# 3. Models have the expected URL for individual Blog and Comment records (e.g. get_absolute_url() returns the expected URL).
-# 4. The BlogListView (all-blog page) is accessible at the expected location (e.g. /blog/blogs)
-# 5. The BlogListView (all-blog page) is accessible at the expected named url (e.g. 'blogs')
-# 6. The BlogListView (all-blog page) uses the expected template (e.g. the default)
-# 7. The BlogListView pagination records by 5 (at least on the first page)
+    def test_get_absolute_url(self):
+        blog = Blogs.objects.create(title='Test Blog', description='Test', author=User.objects.create(username='testuser'))
+        self.assertEqual(blog.get_absolute_url(), f'/blog/{blog.id}/')
+
+class Views_Test(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        number_of_blogs = 13
+        user = User.objects.create(username='testuser')
+        for blog_num in range(number_of_blogs):
+            Blogs.objects.create(title=f'Test Blog {blog_num}', description='Test', author=user)
+
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get('/blog/blogs/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        response = self.client.get(reverse('blog'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        response = self.client.get(reverse('blogs_lists'))
+        self.assertTemplateUsed(response, 'blog_lists.html')
+
+    def test_pagination_is_five(self):
+        response = self.client.get(reverse('blogs_lists'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('is_paginated' in response.context)
+        self.assertTrue(response.context['is_paginated'] is True)
+        self.assertEqual(len(response.context['blogs']), 5)
+
+    def test_lists_all_blogs(self):
+        response = self.client.get(reverse('blogs') + '?page=2')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context['blogs']), 5)

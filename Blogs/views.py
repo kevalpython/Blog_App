@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import *
 from django.shortcuts import redirect
 
 class Index(TemplateView):
-    template_name = 'index.html'
+    template_name = 'home.html'
 
 class Blogs_List_View(ListView):
     template_name = 'blog_lists.html'
@@ -36,7 +36,6 @@ class Blogs_Details_View(DetailView):
         context = super().get_context_data(**kwargs)
         blog = Blogs.objects.get(pk = self.kwargs['pk'])
         comments = Comments.objects.filter(blog=blog)
-        print(comments)
         context['blog'] = blog
         context['comments'] = comments
         return context
@@ -86,6 +85,11 @@ class Login_View(LoginView):
     redirect_authenticated_user = True
 
     def get_success_url(self):
+        print("========================>>>>>>>>>>>>>>>")
+        next_url = self.request.GET.get['next']
+        print("========================>>>>>>>>>>>>>>>",next_url)
+
+        print("========================>>>>>>>>>>>>>>>")
         if 'next' in self.request.GET['next']:
             return reverse('next')
         else :
@@ -94,13 +98,9 @@ class Login_View(LoginView):
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
     
-# MultiValueDictKeyError at /login/
-# 'next'
 
 class Logout_View(LogoutView):
     redirect_authenticated_user = True
 
     def get_success_url(self):
         return reverse_lazy("blog")
-    
-

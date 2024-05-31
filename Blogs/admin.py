@@ -13,8 +13,8 @@ class Blog_Comments_Inline(admin.TabularInline):
 
 @admin.register(Blogs)
 class Blogs_Admin(admin.ModelAdmin):
-    list_display = ['title', 'truncated_description', 'author', 'created_at', 'updated_at']
-    def truncated_description(self, obj):
+    list_display = ['title', 'descriptions', 'author', 'created_at', 'updated_at']
+    def descriptions(self, obj):
         if len(obj.description) > 75:
             return obj.description[:75] + '...'
         else :
@@ -23,10 +23,10 @@ class Blogs_Admin(admin.ModelAdmin):
 
 @admin.register(Comments)
 class Comments_Admin(admin.ModelAdmin):
-    list_display = ['truncated_comment', 'user', 'blog', 'created_at', 'updated_at']
+    list_display = ['comments', 'user', 'blog', 'created_at', 'updated_at']
 
-    def truncated_comment(self, obj):
+    def comments(self, obj):
         if len(obj.comment) > 75:
             return obj.comment[:75] + '...'
-        else :
+        else:
             return obj.comment
