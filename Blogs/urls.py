@@ -24,10 +24,7 @@ urlpatterns = [
     path('blog/blogger/<int:pk>', Bloggers_Detail_View.as_view(),name='blogger_details'),
     path('blog/blogger/', Bloggers_List_View.as_view(),name='bloggers_lists'),
     path('blog/<int:pk>/create', Add_Comment_View.as_view(),name='add_comment'),
-
     path("login/", Login_View.as_view(), name="login"),
     path("logout/", Logout_View.as_view(), name="logout"),
-
-
 ]   
     

@@ -85,15 +85,7 @@ class Login_View(LoginView):
     redirect_authenticated_user = True
 
     def get_success_url(self):
-        print("========================>>>>>>>>>>>>>>>")
-        next_url = self.request.GET.get['next']
-        print("========================>>>>>>>>>>>>>>>",next_url)
-
-        print("========================>>>>>>>>>>>>>>>")
-        if 'next' in self.request.GET['next']:
-            return reverse('next')
-        else :
-            return reverse('blog')
+        return reverse('blog')
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
