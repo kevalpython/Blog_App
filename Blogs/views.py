@@ -9,6 +9,7 @@ from django.urls import reverse,reverse_lazy
 from django.contrib.auth.mixins import *
 from django.shortcuts import redirect
 
+
 class Index_view(TemplateView):
     template_name = 'home.html'
 
@@ -25,7 +26,6 @@ class Bloggers_List_View(ListView):
     context_object_name = 'bloggers'
     def get_queryset(self, **kwargs):
         qs = User.objects.filter(is_blogger= True)
-        print(qs)
         return qs
 
 class Blogs_Details_View(DetailView):
@@ -62,7 +62,6 @@ class Add_Comment_View(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        print(form.errors)
         return super().form_invalid(form)
 
     def get_success_url(self, **kwargs):
@@ -93,3 +92,17 @@ class Logout_View(LogoutView):
 
     def get_success_url(self):
         return reverse_lazy("blog")
+
+
+
+
+
+
+
+
+
+
+
+
+
+

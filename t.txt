@@ -1,3 +1,35 @@
+views.py
+
+from django.shortcuts import render
+from rest_framework.response import Response
+from .models import Blogs,User
+from .serializers import BlogsSerializer
+from rest_framework import status
+from rest_framework import viewsets
+
+class BlogsViewSet(viewsets.ViewSet):
+    
+    def list(self,request):
+        student = Blogs.objects.all()
+        serializer = BlogsSerializer(student, many = True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+    
+
+
+serializer.py
+
+from rest_framework import serializers
+from .models import Blogs,User
+
+class BlogsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model =  Blogs
+        fields = "__all__"
+
+
+models.py
+
+
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,AbstractUser
 from django.utils.translation import gettext_lazy as _
@@ -32,4 +64,3 @@ class Comments(models.Model):
     
     def __str__(self):
         return self.comment
-
