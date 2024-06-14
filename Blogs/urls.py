@@ -14,17 +14,20 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path,include
-from .views import *
+
+from django.urls import path
+
+from .views import (AddCommentView, BloggersDetailView, BloggersListView,
+                    BlogsDetailsView, BlogsListView, IndexView, LoginUserView,
+                    LogoutUserView)
+
 urlpatterns = [
-    path('blog/', Index_view.as_view(),name='blog'),
-    path('blog/blogs/', Blogs_List_View.as_view(),name='blogs_lists'),
-    path('blog/<int:pk>', Blogs_Details_View.as_view(),name='blog_details'),
-    path('blog/blogger/<int:pk>', Bloggers_Detail_View.as_view(),name='blogger_details'),
-    path('blog/blogger/', Bloggers_List_View.as_view(),name='bloggers_lists'),
-    path('blog/<int:pk>/create', Add_Comment_View.as_view(),name='add_comment'),
-    path("login/", Login_View.as_view(), name="login"),
-    path("logout/", Logout_View.as_view(), name="logout"),
-]   
-    
+    path("blog/", IndexView.as_view(), name="blog"),
+    path("blog/blogs/", BlogsListView.as_view(), name="blogs_lists"),
+    path("blog/<int:pk>", BlogsDetailsView.as_view(), name="blog_details"),
+    path("blog/blogger/<int:pk>", BloggersDetailView.as_view(), name="blogger_details"),
+    path("blog/blogger/", BloggersListView.as_view(), name="bloggers_lists"),
+    path("blog/<int:pk>/create", AddCommentView.as_view(), name="add_comment"),
+    path("login/", LoginUserView.as_view(), name="login"),
+    path("logout/", LogoutUserView.as_view(), name="logout"),
+]

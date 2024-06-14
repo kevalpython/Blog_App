@@ -8,8 +8,7 @@ This blog is post by <b><a href="{% url 'blogger_details' pk=blog.author.id %}">
 
 {% for i in comments %}
 
-<p>{{i.comment}}</p>
-<p>{{i.user}}</p>
+{{i.user}}.<h4>{{i.comment}}</h4>
 {% empty %}
 No Comments
 {% endfor %}

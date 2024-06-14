@@ -1,16 +1,26 @@
-from django import forms
-from .models import *
+"""
+This module creates Django forms for HTML files.
+"""
 
-class Add_Comment_Form(forms.ModelForm):
+from django import forms
+
+from .models import Comments
+
+
+class AddCommentForm(forms.ModelForm):
+    """
+    A form class for adding comments to blog posts.
+
+    This form provides a field for users to input comments on blog posts.
+    """
 
     class Meta:
-        model = Comments
-        fields = (
-            "comment",
+        """
+        Metadata options for the AddCommentForm.
+        """
 
-        )
+        model = Comments
+        fields = ("comment",)
         widgets = {
-            "comment": forms.TextInput(
-                attrs={"placeholder": "give comments"}
-            ),            
+            "comment": forms.TextInput(attrs={"placeholder": "give comments"}),
         }
