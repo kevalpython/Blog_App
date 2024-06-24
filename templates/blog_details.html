@@ -3,11 +3,11 @@
 {% block mainblock %}
 
 <h1>{{ blog.title }} </a></h1>
-<h4>{{ blog.description }}</h4>
+<h4>{{ blog.description }}  <a href="{% url 'edit_blog' pk=blog.id %}">edit</a> or <a href="{% url 'delete_blog' pk=blog.id %}">delete</a></h4>
 This blog is post by <b><a href="{% url 'blogger_details' pk=blog.author.id %}">{{ blog.author}}</a></b> on <b>{{ blog.created_at }}</b><hr>
 
-{% for i in comments %}
 
+{% for i in comments %}
 {{i.user}}.<h4>{{i.comment}}</h4>
 {% empty %}
 No Comments

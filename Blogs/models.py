@@ -14,7 +14,6 @@ class User(AbstractUser):
 
     biography = models.CharField(max_length=255, blank=True, null=True)
     is_blogger = models.BooleanField(default=False)
-
     def __str__(self):
         """
         Return the username as the string representation of the user.
@@ -32,7 +31,7 @@ class Blogs(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    
     def __str__(self):
         """
         Return the title of the blog post as its string representation.

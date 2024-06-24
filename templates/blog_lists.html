@@ -5,7 +5,7 @@
 {% for blog in blogs %}
 
 <h1><a href="{% url 'blog_details' pk=blog.pk %}">{{ blog.title }} </a></h1>
-This blog is post by <b><a href="{{ blog.get_absolute_url }}">{{ blog.author }} </a></b> on <b>{{ blog.created_at }}</b><hr>
+This blog is post by <b><a href="{% url 'blogger_details' pk=blog.author.id %}">{{ blog.author }} </a></b> on <b>{{ blog.created_at }}</b><hr>
 {% endfor %}
     <div class="pagination">
         <span class="step-links">

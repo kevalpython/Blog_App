@@ -19,15 +19,19 @@ from django.urls import path
 
 from .views import (AddCommentView, BloggersDetailView, BloggersListView,
                     BlogsDetailsView, BlogsListView, IndexView, LoginUserView,
-                    LogoutUserView)
+                    LogoutUserView,SignUpView,AddBlogView,EditBlogView,DeleteHotelView)
 
 urlpatterns = [
     path("blog/", IndexView.as_view(), name="blog"),
     path("blog/blogs/", BlogsListView.as_view(), name="blogs_lists"),
     path("blog/<int:pk>", BlogsDetailsView.as_view(), name="blog_details"),
     path("blog/blogger/<int:pk>", BloggersDetailView.as_view(), name="blogger_details"),
+    path("edit/blog/<int:pk>", EditBlogView.as_view(), name="edit_blog"),    
+    path("delete/blog/<int:pk>", DeleteHotelView.as_view(), name="delete_blog"),
     path("blog/blogger/", BloggersListView.as_view(), name="bloggers_lists"),
+    path("add/blog/", AddBlogView.as_view(), name="add_blog"),
     path("blog/<int:pk>/create", AddCommentView.as_view(), name="add_comment"),
+    path("signup/", SignUpView.as_view(), name="signup"),
     path("login/", LoginUserView.as_view(), name="login"),
     path("logout/", LogoutUserView.as_view(), name="logout"),
 ]

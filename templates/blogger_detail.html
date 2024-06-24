@@ -2,7 +2,8 @@
 {% load static %} 
 {% block mainblock %}
 
-<h1>{{ blogger.first_name }} </h1>
+<h1>{{ blogger.first_name }}</h1>
+<h1>{{ blogger.biography }}</h1>
 {% for i in blogs %}
 <h1><a href="{% url 'blog_details' pk=i.pk %}">{{ i.title }} </a> </h1>
 <h6>{{ i.created_at}}</h6>

@@ -3,7 +3,7 @@
 {% block mainblock %}
 
 {% for i in bloggers %}
-<h1><a href="{% url 'blogger_details' pk=i.pk %}">{{ i.first_name }} {{ i.last_name }} </a></h1>
+<h1><a href="{% url 'blogger_details' pk=i.pk %}">{{ i.first_name }} </a></h1>
 {% empty %}
 ldjsfngjndfk
 {% endfor %}

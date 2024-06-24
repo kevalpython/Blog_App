@@ -4,13 +4,15 @@ This module contains views for passing data to the frontend or user.
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
+from django.forms import BaseModelForm
+from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView,UpdateView,DeleteView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
-from .forms import AddCommentForm
+from .forms import AddCommentForm,SignUpForm,AddBlogForm,Edit_BlogForm
 from .models import Blogs, Comments, User
 
 
@@ -157,6 +159,76 @@ class AddCommentView(LoginRequiredMixin, CreateView):
         return super().dispatch(request, *args, **kwargs)
 
 
+class AddBlogView(CreateView):
+    template_name = "add_blog.html"
+    model = Blogs
+    form_class = AddBlogForm
+    success_url = reverse_lazy("blog")
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user        
+        return super().form_valid(form)
+    def form_invalid(self, form):
+        return super().form_invalid(form)
+    
+class EditBlogView(UpdateView):
+    model = Blogs
+    form_class = Edit_BlogForm
+    template_name = "edit_blog.html"
+    
+    def get_success_url(self):
+
+        blog_id = self.object.id if self.object else None
+        return reverse_lazy("blog_details", kwargs={'pk': blog_id})
+
+    def form_valid(self, form):
+
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+
+        return super().form_invalid(form)
+    
+
+
+class DeleteHotelView(DeleteView):
+    model = Blogs
+    success_url = reverse_lazy("blogs_lists")
+    template_name = "blog_details.html"
+
+    def post(self, request, *args, **kwargs):
+        
+        blog_id = self.request.POST.get("id", None)
+        
+        if blog_id:
+            blog = Blogs.objects.filter(id=blog_id).first()
+            if blog:
+                blog.delete()
+        
+        return super().post(request, *args, **kwargs)
+
+
+
+
+class SignUpView(CreateView):
+    template_name = "signup.html"
+    model = User
+    form_class = SignUpForm
+    
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        password = form.cleaned_data["password"]
+        user.is_active = True
+        user.is_blogger = True
+        user.set_password(password)
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        """
+        Redirects to the blog details page.
+        """
+        return reverse_lazy("blog")
+
 class LoginUserView(LoginView):
     """
     This class handles user login functionality.
@@ -188,6 +260,7 @@ class LoginUserView(LoginView):
         Returns:
             HttpResponse: A response with the rendered login page and form data.
         """
+        print("hiiiii")
         return self.render_to_response(self.get_context_data(form=form))
 
 
@@ -199,7 +272,7 @@ class LogoutUserView(LogoutView):
         redirect_authenticated_user (bool): Indicates whether to redirect authenticated users. Default is False.
     """
 
-    redirect_authenticated_user = False
+    redirect_authenticated_user = True
 
     def get_success_url(self):
         """
@@ -209,3 +282,6 @@ class LogoutUserView(LogoutView):
             str: The URL to redirect to.
         """
         return reverse_lazy("blog")
+
+
+

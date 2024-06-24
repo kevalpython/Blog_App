@@ -4,7 +4,7 @@ This module contains admin panels for managing the Blogs app.
 
 from django.contrib import admin
 
-from Blogs.models import Blogs, Comments, User
+from .models import Blogs, Comments, User
 
 # Register your models here.
 

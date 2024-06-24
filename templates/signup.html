@@ -1,0 +1,28 @@
+{% extends "index.html" %} 
+{% load static %} 
+{% block styleblock %}
+<style>
+#id_first_name, #id_last_name, #id_username, #id_email, #id_password, #id_password_confirm {
+    width: 20%;
+}
+</style>
+{% endblock %}
+{% block mainblock %}
+<form action="" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered">
+    {% csrf_token %}
+    <label>{{form.first_name.label}} : </label>
+    {{form.first_name}}<br>
+    <label>{{form.last_name.label}} : </label>
+    {{form.last_name}}<br>     
+    <label>{{form.username.label}} : </label>
+    {{form.username}}<br>
+    <label>{{form.email.label}} : </label>
+    {{form.email}}<br>
+    <label>{{form.password.label}} : </label>
+    {{form.password}}<br>
+    <label>{{form.password_confirm.label}} : </label>
+    {{form.password_confirm}}<br>
+    
+    <button type="submit">Submit</button>
+</form>
+{% endblock %}
