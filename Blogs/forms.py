@@ -40,6 +40,7 @@ class SignUpForm(forms.ModelForm):
             "last_name",
             "username",
             "email",
+            "biography",
             "password",
         )
         widgets = {
@@ -53,19 +54,23 @@ class SignUpForm(forms.ModelForm):
                 attrs={"class": "form-control", "placeholder": "Username"}
             ),
             "email": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "email"}
+                attrs={"class": "form-control", "placeholder": "Email"}
             ),
+            "biography": forms.Textarea(
+                attrs={"class": "form-control", "placeholder": "Biography"}
+                ),
             "password": forms.PasswordInput(
-                attrs={"class": "form-control", "placeholder": "password"}
+                attrs={"class": "form-control", "placeholder": "Password"}
             ),
         }
 
-        def clean_password_confirm(self):
-            password = self.cleaned_data.get("password")
-            password_confirm = self.cleaned_data.get("password_confirm")
-            if password and password_confirm and password != password_confirm:
-                raise forms.ValidationError("Passowrd do not match.")
-            return password_confirm
+    def clean_password_confirm(self):
+        password = self.cleaned_data.get("password")
+        password_confirm = self.cleaned_data.get("password_confirm")
+        print("print",password)
+        if password and password_confirm and password != password_confirm:
+            raise forms.ValidationError("Passowrd do not match.")
+        return password_confirm
 
 
 class AddBlogForm(forms.ModelForm):

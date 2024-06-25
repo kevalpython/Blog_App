@@ -1,0 +1,36 @@
+
+
+
+{% extends "index.html" %} 
+{% load static %} 
+{% block mainblock %}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.username }}</td>
+            {% if user.is_active %}
+        
+            <td>Active</td>
+            <td>
+                <a href="{% url 'active_deactive_user' pk=user.pk %}" title="Deactive" class="btn btn-primary btn-xs">Deactive</a>
+            </td>
+            {% else %}
+            <td>Inactive</td>
+            <td>
+                <a href="{% url 'active_deactive_user' pk=user.pk %}" title="Active" class="btn btn-primary btn-xs">Active</a>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}  
+    </tbody>
+</table>
+{% endblock %}
+<!-- <a href="{edit_url}" data-id="{obj.id}" title="Edit" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>  -->

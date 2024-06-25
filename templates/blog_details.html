@@ -2,8 +2,16 @@
 {% load static %} 
 {% block mainblock %}
 
-<h1>{{ blog.title }} </a></h1>
-<h4>{{ blog.description }}  <a href="{% url 'edit_blog' pk=blog.id %}">edit</a> or <a href="{% url 'delete_blog' pk=blog.id %}">delete</a></h4>
+<h1>{{ blog.title }} </a>{% if user.username == blog.author.username %}
+    <a href="{% url 'edit_blog' pk=blog.id %}"><button title="edit" style="font-size:24px;"><i class="fa fa-edit"></i></button></a> 
+    <form action="{% url 'delete_blog' pk=blog.id %}" method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" title="delete" style="font-size:24px"><i class="fa fa-trash-o"></i></button>
+    </form>
+    {% endif %}
+</h1>
+
+<h4>{{ blog.description }}.</h4>
 This blog is post by <b><a href="{% url 'blogger_details' pk=blog.author.id %}">{{ blog.author}}</a></b> on <b>{{ blog.created_at }}</b><hr>
 
 

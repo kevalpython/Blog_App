@@ -19,7 +19,7 @@ from django.urls import path
 
 from .views import (AddCommentView, BloggersDetailView, BloggersListView,
                     BlogsDetailsView, BlogsListView, IndexView, LoginUserView,
-                    LogoutUserView,SignUpView,AddBlogView,EditBlogView,DeleteHotelView)
+                    LogoutUserView,SignUpView,AddBlogView,EditBlogView,DeleteBlogView,AllUserView,UserActivationView)
 
 urlpatterns = [
     path("blog/", IndexView.as_view(), name="blog"),
@@ -27,11 +27,14 @@ urlpatterns = [
     path("blog/<int:pk>", BlogsDetailsView.as_view(), name="blog_details"),
     path("blog/blogger/<int:pk>", BloggersDetailView.as_view(), name="blogger_details"),
     path("edit/blog/<int:pk>", EditBlogView.as_view(), name="edit_blog"),    
-    path("delete/blog/<int:pk>", DeleteHotelView.as_view(), name="delete_blog"),
+    path("delete/blog/<int:pk>", DeleteBlogView.as_view(), name="delete_blog"),
+    path("active/user/<int:pk>", UserActivationView.as_view(), name="active_deactive_user"),
     path("blog/blogger/", BloggersListView.as_view(), name="bloggers_lists"),
+    path("users/", AllUserView.as_view(), name="all_user"),
     path("add/blog/", AddBlogView.as_view(), name="add_blog"),
     path("blog/<int:pk>/create", AddCommentView.as_view(), name="add_comment"),
     path("signup/", SignUpView.as_view(), name="signup"),
     path("login/", LoginUserView.as_view(), name="login"),
     path("logout/", LogoutUserView.as_view(), name="logout"),
 ]
+

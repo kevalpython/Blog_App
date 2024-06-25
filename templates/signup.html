@@ -2,7 +2,7 @@
 {% load static %} 
 {% block styleblock %}
 <style>
-#id_first_name, #id_last_name, #id_username, #id_email, #id_password, #id_password_confirm {
+#id_first_name, #id_last_name, #id_username, #id_email, #id_password, #id_password_confirm, #id_biography {
     width: 20%;
 }
 </style>
@@ -18,10 +18,17 @@
     {{form.username}}<br>
     <label>{{form.email.label}} : </label>
     {{form.email}}<br>
+    <label>{{form.biography.label}} : </label>
+    {{form.biography}}<br>
     <label>{{form.password.label}} : </label>
     {{form.password}}<br>
     <label>{{form.password_confirm.label}} : </label>
-    {{form.password_confirm}}<br>
+    {{form.password_confirm}}<br> 
+    {% if form.password_confirm.errors %}
+        {% for error in form.password_confirm.errors %}
+            <p style="color: red;">{{error}}</p>
+        {% endfor %}
+    {% endif %}
     
     <button type="submit">Submit</button>
 </form>

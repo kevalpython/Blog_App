@@ -2,8 +2,8 @@
 {% load static %} 
 {% block mainblock %}
 
-{% for i in bloggers %}
-<h1><a href="{% url 'blogger_details' pk=i.pk %}">{{ i.first_name }} </a></h1>
+{% for blogger in bloggers %}
+<h1><a href="{% url 'blogger_details' pk=blogger.pk %}">{{ blogger.first_name }} {{ blogger.last_name }} </a></h1>
 {% empty %}
 ldjsfngjndfk
 {% endfor %}
